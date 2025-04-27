@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مكتبة العلم - كتب وملازم دراسية</title>
+    <meta name="description" content="مكتبة إلكترونية متكاملة للكتب والملازم الدراسية">
+    <title>مكتبة نويره- كتب وملازم والبرتقال
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -13,29 +16,44 @@
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
             --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #333;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
         }
-        
+
+        /* نظام الوضع الليلي */
+        [data-theme="dark"] {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --light-color: #333;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Tajawal', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
         }
-        
+
         body {
-            background-color: #f5f7fa;
-            color: var(--dark-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
             touch-action: manipulation;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
         }
-        
+
         /* Header Styles */
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -48,31 +66,31 @@
             z-index: 1000;
             transition: all 0.3s ease;
         }
-        
+
         header.scrolled {
             padding: 10px 0;
             background: rgba(44, 62, 80, 0.95);
             backdrop-filter: blur(10px);
         }
-        
+
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             font-size: 22px;
             font-weight: 700;
             display: flex;
             align-items: center;
         }
-        
+
         .logo i {
             margin-left: 10px;
             color: var(--secondary-color);
         }
-        
+
         .menu-toggle {
             display: none;
             background: none;
@@ -81,16 +99,16 @@
             font-size: 24px;
             cursor: pointer;
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
         }
-        
+
         nav ul li {
             margin-right: 15px;
         }
-        
+
         nav ul li a {
             color: white;
             text-decoration: none;
@@ -100,30 +118,121 @@
             border-radius: 4px;
             display: block;
         }
-        
+
         nav ul li a:hover, nav ul li a:active {
             background-color: rgba(255, 255, 255, 0.2);
         }
-        
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader .book {
+            width: 60px;
+            height: 80px;
+            position: relative;
+            perspective: 800px;
+            margin-bottom: 20px;
+        }
+
+        .preloader .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            transform-origin: left center;
+            animation: flip 1.5s infinite ease-in-out;
+            border-radius: 3px;
+        }
+
+        .preloader .page:nth-child(1) {
+            animation-delay: 0.1s;
+            background-color: #f1f1f1;
+        }
+
+        .preloader .page:nth-child(2) {
+            animation-delay: 0.3s;
+            background-color: #e6e6e6;
+        }
+
+        .preloader .page:nth-child(3) {
+            animation-delay: 0.5s;
+            background-color: #d9d9d9;
+        }
+
+        .preloader .progress-container {
+            width: 200px;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .preloader .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes flip {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(-180deg); }
+        }
+
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('library-bg.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/library-bg.jpg');
             background-size: cover;
             background-position: center;
-            height: 80vh;
+            background-attachment: fixed;
+            height: 100vh;
             display: flex;
             align-items: center;
             text-align: center;
             color: white;
-            margin-top: 80px;
+            margin-top: 0;
+            position: relative;
         }
-        
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, var(--bg-color));
+        }
+
         .hero-content h1 {
             font-size: 2.5rem;
             margin-bottom: 20px;
             animation: fadeInUp 1s ease;
         }
-        
+
         .hero-content p {
             font-size: 1.1rem;
             margin-bottom: 30px;
@@ -132,7 +241,7 @@
             margin-right: auto;
             animation: fadeInUp 1s ease 0.3s both;
         }
-        
+
         .btn {
             display: inline-block;
             background-color: var(--secondary-color);
@@ -148,36 +257,134 @@
             animation: fadeInUp 1s ease 0.6s both;
             touch-action: manipulation;
             user-select: none;
+            position: relative;
+            overflow: hidden;
         }
-        
+
         .btn:hover, .btn:active {
             background-color: #2980b9;
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .btn-outline {
             background-color: transparent;
             border: 2px solid white;
             margin-right: 15px;
         }
-        
+
         .btn-outline:hover, .btn-outline:active {
             background-color: white;
             color: var(--primary-color);
         }
-        
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Search Box */
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .search-box input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        .search-box i {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+
         /* Tabs Section */
         .tabs-section {
             padding: 80px 0;
-            background-color: white;
+            background-color: var(--bg-color);
         }
-        
+
         .section-title {
             text-align: center;
             margin-bottom: 50px;
         }
-        
+
         .section-title h2 {
             font-size: 2rem;
             color: var(--primary-color);
@@ -185,7 +392,7 @@
             display: inline-block;
             padding-bottom: 15px;
         }
-        
+
         .section-title h2::after {
             content: '';
             position: absolute;
@@ -196,13 +403,13 @@
             height: 3px;
             background-color: var(--secondary-color);
         }
-        
+
         .tabs {
             display: flex;
             justify-content: center;
             margin-bottom: 30px;
         }
-        
+
         .tab-btn {
             padding: 12px 30px;
             background-color: transparent;
@@ -210,17 +417,17 @@
             cursor: pointer;
             font-size: 18px;
             font-weight: 600;
-            color: var(--dark-color);
+            color: var(--text-color);
             position: relative;
             transition: all 0.3s ease;
             margin: 0 10px;
             touch-action: manipulation;
         }
-        
+
         .tab-btn.active {
             color: var(--secondary-color);
         }
-        
+
         .tab-btn.active::after {
             content: '';
             position: absolute;
@@ -230,16 +437,16 @@
             height: 3px;
             background-color: var(--secondary-color);
         }
-        
+
         .tab-content {
             display: none;
             animation: fadeIn 0.5s ease;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         /* Books Grid */
         .books-grid {
             display: grid;
@@ -247,48 +454,71 @@
             gap: 30px;
             margin-top: 30px;
         }
-        
+
         .book-card {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             position: relative;
+            transform-style: preserve-3d;
         }
-        
+
+        .book-card:hover {
+            transform: rotateY(10deg) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
         .book-card:active {
             transform: scale(0.98);
         }
-        
+
         .book-cover {
             height: 300px;
             overflow: hidden;
+            position: relative;
         }
-        
+
         .book-cover img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
         .book-info {
             padding: 20px;
         }
-        
+
         .book-info h3 {
             font-size: 18px;
             margin-bottom: 10px;
             color: var(--primary-color);
         }
-        
+
         .book-info p {
             color: #7f8c8d;
             font-size: 14px;
             margin-bottom: 15px;
         }
-        
+
         .download-btn {
             display: block;
             width: 100%;
@@ -301,38 +531,49 @@
             font-weight: 600;
             transition: all 0.3s ease;
             touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
         }
-        
+
         .download-btn:hover, .download-btn:active {
             background-color: #2980b9;
         }
-        
+
+        .rating {
+            margin-bottom: 10px;
+            color: var(--warning-color);
+        }
+
+        .rating i {
+            margin-left: 2px;
+        }
+
         /* Contact Form */
         .contact-section {
             padding: 80px 0;
-            background-color: #f5f7fa;
+            background-color: var(--bg-color);
         }
-        
+
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
-            background-color: white;
-            padding: 30px;
+            background-color: var(--card-bg);
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--primary-color);
         }
-        
+
         .form-control {
             width: 100%;
             padding: 12px 15px;
@@ -341,78 +582,117 @@
             font-size: 16px;
             transition: all 0.3s ease;
             -webkit-appearance: none;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
-        
+
         .form-control:focus {
             border-color: var(--secondary-color);
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
             outline: none;
         }
-        
+
         textarea.form-control {
             min-height: 150px;
             resize: vertical;
         }
-        
+
         .submit-btn {
             background-color: var(--success-color);
             width: 100%;
         }
-        
+
         .submit-btn:hover, .submit-btn:active {
             background-color: #219955;
         }
-        
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Bot Info */
         .bot-info {
             text-align: center;
             margin-top: 30px;
             padding: 20px;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .bot-info h3 {
             color: var(--primary-color);
             margin-bottom: 10px;
         }
-        
+
         .bot-info p {
             color: #7f8c8d;
             margin-bottom: 15px;
         }
-        
+
         .bot-id {
             display: inline-block;
-            background-color: #f1f1f1;
+            background-color: var(--light-color);
             padding: 8px 15px;
             border-radius: 5px;
             font-family: monospace;
-            color: var(--dark-color);
+            color: var(--text-color);
             user-select: all;
+            margin-bottom: 10px;
         }
-        
+
+        .bot-link {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .bot-link:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
         /* Footer */
         footer {
             background-color: var(--primary-color);
             color: white;
             padding: 50px 0 20px;
         }
-        
+
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
             margin-bottom: 40px;
         }
-        
+
         .footer-column h3 {
             font-size: 20px;
             margin-bottom: 20px;
             position: relative;
             padding-bottom: 10px;
         }
-        
+
         .footer-column h3::after {
             content: '';
             position: absolute;
@@ -422,17 +702,17 @@
             height: 2px;
             background-color: var(--secondary-color);
         }
-        
+
         .footer-column p {
             margin-bottom: 15px;
             opacity: 0.8;
         }
-        
+
         .social-links {
             display: flex;
             gap: 15px;
         }
-        
+
         .social-links a {
             display: flex;
             align-items: center;
@@ -444,19 +724,19 @@
             color: white;
             transition: all 0.3s ease;
         }
-        
+
         .social-links a:hover, .social-links a:active {
             background-color: var(--secondary-color);
             transform: translateY(-3px);
         }
-        
+
         .copyright {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             opacity: 0.7;
         }
-        
+
         /* Animations */
         @keyframes fadeIn {
             from {
@@ -466,7 +746,7 @@
                 opacity: 1;
             }
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -477,7 +757,7 @@
                 transform: translateY(0);
             }
         }
-        
+
         /* Responsive */
         @media (max-width: 992px) {
             .hero-content h1 {
@@ -488,7 +768,7 @@
                 font-size: 1rem;
             }
         }
-        
+
         @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
@@ -525,8 +805,8 @@
             }
             
             .hero {
-                height: 70vh;
-                margin-top: 70px;
+                height: 80vh;
+                margin-top: 0;
             }
             
             .hero-content h1 {
@@ -557,15 +837,19 @@
             .btn-outline {
                 margin-right: 10px;
             }
+            
+            .contact-form {
+                padding: 30px;
+            }
         }
-        
+
         @media (max-width: 480px) {
             .logo {
                 font-size: 18px;
             }
             
             .hero {
-                height: 60vh;
+                height: 70vh;
             }
             
             .hero-content h1 {
@@ -587,6 +871,18 @@
     </style>
 </head>
 <body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="book">
+            <div class="page"></div>
+            <div class="page"></div>
+            <div class="page"></div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header id="header">
         <div class="container">
@@ -604,6 +900,9 @@
                         <li><a href="#library">المكتبة</a></li>
                         <li><a href="#contact">اتصل بنا</a></li>
                     </ul>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
                 </nav>
             </div>
         </div>
@@ -614,10 +913,12 @@
         <div class="container">
             <div class="hero-content">
                 <div>
-                    <h1>مرحباً بكم في مكتبة نويره الإلكترونية</h1>
-                    <p>أكبر مجموعة من الكتب والملازم الدراسية في مكان واحد. تصفح مكتبتنا واحصل على ما تحتاجه من مصادر تعليمية بضغطة زر.</p>
-                    <a href="#library" class="btn btn-outline">استكشف المكتبة</a>
-                    <a href="#contact" class="btn">تواصل معنا</a>
+                    <h1 data-aos="fade-up"> مرحباً بكم في مكتبة نويره الإلكترونية</h1>
+                    <p data-aos="fade-up" data-aos-delay="300">أكبر مجموعة من الكتب والملازم الدراسية في مكان واحد. تصفح مكتبتنا واحصل على ما تحتاجه من مصادر تعليمية بضغطة زر.</p>
+                    <div data-aos="fade-up" data-aos-delay="600">
+                        <a href="#library" class="btn btn-outline">استكشف المكتبة</a>
+                        <a href="#contact" class="btn">تواصل معنا</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -627,10 +928,15 @@
     <section class="tabs-section" id="library">
         <div class="container">
             <div class="section-title">
-                <h2>المكتبة الإلكترونية</h2>
+                <h2 data-aos="fade-up">المكتبة الإلكترونية</h2>
             </div>
             
-            <div class="tabs">
+            <div class="search-box" data-aos="fade-up" data-aos-delay="200">
+                <input type="text" id="searchInput" placeholder="ابحث عن كتاب أو ملزمة...">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <div class="tabs" data-aos="fade-up" data-aos-delay="300">
                 <button class="tab-btn active" data-tab="books">الكتب</button>
                 <button class="tab-btn" data-tab="supplements">الملازم</button>
             </div>
@@ -638,11 +944,19 @@
             <div class="tab-content active" id="books-tab">
                 <div class="books-grid">
                     <!-- Book 1 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up">
                         <div class="book-cover">
-                            <img src="images/math.jpg" alt="كتاب الرياضيات">
+                            <span class="book-badge">الأكثر تحميلاً</span>
+                            <img src="images/math.jpg" alt="كتاب الرياضيات" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
                             <h3>الرياضيات المتقدمة</h3>
                             <p>كتاب شامل لجميع مفاهيم الرياضيات للجامعة</p>
                             <a href="books/math.pdf" class="download-btn" download="الرياضيات_المتقدمة.pdf">
@@ -652,11 +966,18 @@
                     </div>
                     
                     <!-- Book 2 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="book-cover">
-                            <img src="images/book2.jpg" alt="كتاب الفيزياء">
+                            <img src="images/book2.jpg" alt="كتاب الفيزياء" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                             <h3>أساسيات الفيزياء</h3>
                             <p>مرجع شامل لمبادئ الفيزياء الأساسية</p>
                             <a href="books/physics_book.pdf" class="download-btn" download="أساسيات_الفيزياء.pdf">
@@ -666,11 +987,18 @@
                     </div>
                     
                     <!-- Book 3 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="book-cover">
-                            <img src="images/book3.jpg" alt="كتاب الكيمياء">
+                            <img src="images/book3.jpg" alt="كتاب الكيمياء" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                             <h3>الكيمياء العضوية</h3>
                             <p>دليل شامل للكيمياء العضوية وتفاعلاتها</p>
                             <a href="books/chemistry_book.pdf" class="download-btn" download="الكيمياء_العضوية.pdf">
@@ -680,11 +1008,19 @@
                     </div>
                     
                     <!-- Book 4 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="book-cover">
-                            <img src="images/book4.jpg" alt="كتاب الأحياء">
+                            <span class="book-badge">جديد</span>
+                            <img src="images/book4.jpg" alt="كتاب الأحياء" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
                             <h3>علم الأحياء الدقيقة</h3>
                             <p>مقدمة شاملة لعلم الأحياء الدقيقة</p>
                             <a href="books/biology_book.pdf" class="download-btn" download="علم_الأحياء_الدقيقة.pdf">
@@ -698,11 +1034,19 @@
             <div class="tab-content" id="supplements-tab">
                 <div class="books-grid">
                     <!-- Supplement 1 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up">
                         <div class="book-cover">
-                            <img src="images/supplement1.jpg" alt="ملزمة الرياضيات">
+                            <span class="book-badge">محدث</span>
+                            <img src="images/supplement1.jpg" alt="ملزمة الرياضيات" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                             <h3>ملزمة الرياضيات</h3>
                             <p>ملزمة شاملة لجميع فصول الرياضيات للصف الأول الثانوي</p>
                             <a href="supplements/math_supplement.pdf" class="download-btn" download="ملزمة_الرياضيات.pdf">
@@ -712,11 +1056,18 @@
                     </div>
                     
                     <!-- Supplement 2 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="book-cover">
-                            <img src="images/supplement2.jpg" alt="ملزمة الفيزياء">
+                            <img src="images/supplement2.jpg" alt="ملزمة الفيزياء" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                             <h3>ملزمة الفيزياء</h3>
                             <p>ملخص شامل لمادة الفيزياء مع أمثلة وتمارين محلولة</p>
                             <a href="supplements/physics_supplement.pdf" class="download-btn" download="ملزمة_الفيزياء.pdf">
@@ -726,11 +1077,18 @@
                     </div>
                     
                     <!-- Supplement 3 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="book-cover">
-                            <img src="images/supplement3.jpg" alt="ملزمة الكيمياء">
+                            <img src="images/supplement3.jpg" alt="ملزمة الكيمياء" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                             <h3>ملزمة الكيمياء</h3>
                             <p>أهم المفاهيم والتجارب في مادة الكيمياء</p>
                             <a href="supplements/chemistry_supplement.pdf" class="download-btn" download="ملزمة_الكيمياء.pdf">
@@ -740,11 +1098,19 @@
                     </div>
                     
                     <!-- Supplement 4 -->
-                    <div class="book-card">
+                    <div class="book-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="book-cover">
-                            <img src="images/supplement4.jpg" alt="ملزمة الأحياء">
+                            <span class="book-badge">جديد</span>
+                            <img src="images/supplement4.jpg" alt="ملزمة الأحياء" loading="lazy">
                         </div>
                         <div class="book-info">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                             <h3>ملزمة الأحياء</h3>
                             <p>شرح مبسط مع رسومات توضيحية لمادة الأحياء</p>
                             <a href="supplements/biology_supplement.pdf" class="download-btn" download="ملزمة_الأحياء.pdf">
@@ -761,32 +1127,41 @@
     <section class="contact-section" id="contact">
         <div class="container">
             <div class="section-title">
-                <h2>تواصل معنا</h2>
+                <h2 data-aos="fade-up">تواصل معنا</h2>
             </div>
             
-            <div class="contact-form">
+            <div class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                <div id="alertBox" class="alert" style="display: none;"></div>
+                
                 <form id="feedbackForm">
                     <div class="form-group">
                         <label for="name">اسمك</label>
                         <input type="text" id="name" class="form-control" required>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني (اختياري)</label>
+                        <input type="email" id="email" class="form-control">
+                    </div>
                     
                     <div class="form-group">
                         <label for="message">ملاحظاتك أو طلباتك</label>
                         <textarea id="message" class="form-control" required></textarea>
                     </div>
                     
-                    <button type="submit" class="btn submit-btn">
+                    <button type="submit" class="btn submit-btn" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> إرسال الرسالة
                     </button>
                 </form>
             </div>
             
-            <div class="bot-info">
+            <div class="bot-info" data-aos="fade-up" data-aos-delay="300">
                 <h3>للتواصل عبر البوت</h3>
                 <p>يمكنك إرسال رسالتك مباشرة إلى بوت الدعم الفني على التليجرام:</p>
-                <div class="bot-id">@YourSupportBot</div>
+                <div class="bot-id">@LibrarySupportBot</div>
+                <a href="https://t.me/LibrarySupportBot" class="bot-link" target="_blank">
+                    <i class="fab fa-telegram"></i> الدردشة الآن
+                </a>
             </div>
         </div>
     </section>
@@ -795,7 +1170,7 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-column">
+                <div class="footer-column" data-aos="fade-up">
                     <h3>عن المكتبة</h3>
                     <p>مكتبة إلكترونية تهدف إلى توفير الكتب والملازم الدراسية لجميع الطلاب والمهتمين بالمعرفة.</p>
                     <div class="social-links">
@@ -806,7 +1181,7 @@
                     </div>
                 </div>
                 
-                <div class="footer-column">
+                <div class="footer-column" data-aos="fade-up" data-aos-delay="100">
                     <h3>روابط سريعة</h3>
                     <ul>
                         <li><a href="#home">الرئيسية</a></li>
@@ -816,31 +1191,72 @@
                     </ul>
                 </div>
                 
-                <div class="footer-column">
+                <div class="footer-column" data-aos="fade-up" data-aos-delay="200">
                     <h3>معلومات الاتصال</h3>
-                    <p><i class="fas fa-envelope"></i> info@example.com</p>
+                    <p><i class="fas fa-envelope"></i> info@library.com</p>
                     <p><i class="fas fa-phone"></i> +123456789</p>
                     <p><i class="fas fa-map-marker-alt"></i> المدينة، الدولة</p>
                 </div>
             </div>
             
-            <div class="copyright">
+            <div class="copyright" data-aos="fade-up" data-aos-delay="300">
                 <p>&copy; 2023 مكتبة العلم. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            const progressBar = document.querySelector('.progress-bar');
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 5;
+                progressBar.style.width = width + '%';
+                if (width >= 100) {
+                    clearInterval(interval);
+                    document.querySelector('.preloader').style.opacity = '0';
+                    setTimeout(() => {
+                        document.querySelector('.preloader').style.display = 'none';
+                    }, 500);
+                }
+            }, 50);
+            
+            // Initialize AOS after page load
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        });
+
         // Header Scroll Effect
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
+            const backToTop = document.getElementById('backToTop');
+            
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
+            
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
         });
-        
+
         // Mobile Menu Toggle
         const menuToggle = document.getElementById('menuToggle');
         const mainNav = document.getElementById('mainNav');
@@ -858,7 +1274,31 @@
                 menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
             });
         });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
         
+        // Check for saved theme or use preferred color scheme
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
         // Tab Switching
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -896,25 +1336,101 @@
                 document.getElementById(`${tabId}-tab`).classList.add('active');
             });
         });
+
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const bookCards = document.querySelectorAll('.book-card');
+            
+            bookCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Telegram Bot Integration
+        const BOT_TOKEN = 'YOUR_BOT_TOKEN'; // استبدل بتوكن البوت الخاص بك
+        const CHAT_ID = 'YOUR_CHAT_ID'; // استبدل بمعرف الدردشة الخاص بك
         
+        async function sendToTelegram(name, email, message) {
+            const text = `📬 رسالة جديدة من موقع المكتبة:\n\n👤 الاسم: ${name}\n📧 البريد: ${email || 'غير متوفر'}\n📝 الرسالة:\n${message}`;
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await axios.post(url, {
+                    chat_id: CHAT_ID,
+                    text: text,
+                    parse_mode: 'Markdown'
+                });
+                
+                return response.data.ok;
+            } catch (error) {
+                console.error('Error sending message:', error);
+                return false;
+            }
+        }
+
         // Form Submission
         const feedbackForm = document.getElementById('feedbackForm');
+        const alertBox = document.getElementById('alertBox');
+        const submitBtn = document.getElementById('submitBtn');
         
-        feedbackForm.addEventListener('submit', function(e) {
+        feedbackForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
             
-            // Here you would typically send the data to your server
-            // For demonstration, we'll just show an alert
-            alert(`شكراً ${name} على ملاحظاتك! سنقوم بالرد عليك قريباً.`);
+            // تغيير نص الزر أثناء الإرسال
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitBtn.disabled = true;
             
-            // Reset the form
-            feedbackForm.reset();
+            // إرسال الرسالة إلى Telegram
+            const isSent = await sendToTelegram(name, email, message);
+            
+            if (isSent) {
+                // إظهار رسالة النجاح
+                alertBox.textContent = 'شكراً لك! تم إرسال رسالتك بنجاح وسنقوم بالرد عليك قريباً.';
+                alertBox.className = 'alert alert-success';
+                alertBox.style.display = 'block';
+                
+                // إخفاء الرسالة بعد 5 ثواني
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+                
+                // إعادة تعيين النموذج
+                feedbackForm.reset();
+            } else {
+                // إظهار رسالة الخطأ
+                alertBox.textContent = 'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى أو التواصل عبر البوت مباشرة.';
+                alertBox.className = 'alert alert-danger';
+                alertBox.style.display = 'block';
+            }
+            
+            // إعادة الزر إلى حالته الأصلية
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
         });
-        
+
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
         // Smooth Scrolling for Anchor Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -948,6 +1464,27 @@
             
             btn.addEventListener('touchend', function() {
                 this.classList.remove('active-touch');
+            });
+        });
+
+        // Rating System
+        document.querySelectorAll('.rating i').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-rating');
+                const parent = this.parentElement;
+                
+                parent.querySelectorAll('i').forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.add('fas');
+                        s.classList.remove('far');
+                    } else {
+                        s.classList.add('far');
+                        s.classList.remove('fas');
+                    }
+                });
+                
+                // هنا يمكنك إرسال التقييم إلى الخادم
+                console.log(`تم التقييم بـ ${rating} نجوم`);
             });
         });
     </script>
