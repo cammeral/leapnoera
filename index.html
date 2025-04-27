@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مكتبة العلم - كتب وملازم دراسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            touch-action: manipulation;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background: rgba(44, 62, 80, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: block;
+        }
+        
+        nav ul li a:hover, nav ul li a:active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('library-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            margin-top: 80px;
+        }
+        
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            animation: fadeInUp 1s ease 0.6s both;
+            touch-action: manipulation;
+            user-select: none;
+        }
+        
+        .btn:hover, .btn:active {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-right: 15px;
+        }
+        
+        .btn-outline:hover, .btn-outline:active {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        /* Tabs Section */
+        .tabs-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .tab-btn {
+            padding: 12px 30px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+            position: relative;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            touch-action: manipulation;
+        }
+        
+        .tab-btn.active {
+            color: var(--secondary-color);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Books Grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .book-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .book-card:active {
+            transform: scale(0.98);
+        }
+        
+        .book-cover {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .book-info {
+            padding: 20px;
+        }
+        
+        .book-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .book-info p {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+        
+        .download-btn:hover, .download-btn:active {
+            background-color: #2980b9;
+        }
+        
+        /* Contact Form */
+        .contact-section {
+            padding: 80px 0;
+            background-color: #f5f7fa;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--success-color);
+            width: 100%;
+        }
+        
+        .submit-btn:hover, .submit-btn:active {
+            background-color: #219955;
+        }
+        
+        .bot-info {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bot-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .bot-info p {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .bot-id {
+            display: inline-block;
+            background-color: #f1f1f1;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: var(--dark-color);
+            user-select: all;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-column p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover, .social-links a:active {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                background-color: var(--primary-color);
+                padding: 20px;
+                border-radius: 0 0 0 10px;
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .header-content {
+                flex-direction: row;
+                text-align: center;
+            }
+            
+            .hero {
+                height: 70vh;
+                margin-top: 70px;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                margin: 5px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .btn-outline {
+                margin-right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 18px;
+            }
+            
+            .hero {
+                height: 60vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span>مكتبة العلم</span>
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#library">المكتبة</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>مرحباً بكم في مكتبة نويره الإلكترونية</h1>
+                    <p>أكبر مجموعة من الكتب والملازم الدراسية في مكان واحد. تصفح مكتبتنا واحصل على ما تحتاجه من مصادر تعليمية بضغطة زر.</p>
+                    <a href="#library" class="btn btn-outline">استكشف المكتبة</a>
+                    <a href="#contact" class="btn">تواصل معنا</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Library Section -->
+    <section class="tabs-section" id="library">
+        <div class="container">
+            <div class="section-title">
+                <h2>المكتبة الإلكترونية</h2>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="books">الكتب</button>
+                <button class="tab-btn" data-tab="supplements">الملازم</button>
+            </div>
+            
+            <div class="tab-content active" id="books-tab">
+                <div class="books-grid">
+                    <!-- Book 1 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/math.jpg" alt="كتاب الرياضيات">
+                        </div>
+                        <div class="book-info">
+                            <h3>الرياضيات المتقدمة</h3>
+                            <p>كتاب شامل لجميع مفاهيم الرياضيات للجامعة</p>
+                            <a href="books/math.pdf" class="download-btn" download="الرياضيات_المتقدمة.pdf">
+                                <i class="fas fa-download"></i> تحميل الكتاب
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Book 2 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/book2.jpg" alt="كتاب الفيزياء">
+                        </div>
+                        <div class="book-info">
+                            <h3>أساسيات الفيزياء</h3>
+                            <p>مرجع شامل لمبادئ الفيزياء الأساسية</p>
+                            <a href="books/physics_book.pdf" class="download-btn" download="أساسيات_الفيزياء.pdf">
+                                <i class="fas fa-download"></i> تحميل الكتاب
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Book 3 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/book3.jpg" alt="كتاب الكيمياء">
+                        </div>
+                        <div class="book-info">
+                            <h3>الكيمياء العضوية</h3>
+                            <p>دليل شامل للكيمياء العضوية وتفاعلاتها</p>
+                            <a href="books/chemistry_book.pdf" class="download-btn" download="الكيمياء_العضوية.pdf">
+                                <i class="fas fa-download"></i> تحميل الكتاب
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Book 4 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/book4.jpg" alt="كتاب الأحياء">
+                        </div>
+                        <div class="book-info">
+                            <h3>علم الأحياء الدقيقة</h3>
+                            <p>مقدمة شاملة لعلم الأحياء الدقيقة</p>
+                            <a href="books/biology_book.pdf" class="download-btn" download="علم_الأحياء_الدقيقة.pdf">
+                                <i class="fas fa-download"></i> تحميل الكتاب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="supplements-tab">
+                <div class="books-grid">
+                    <!-- Supplement 1 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/supplement1.jpg" alt="ملزمة الرياضيات">
+                        </div>
+                        <div class="book-info">
+                            <h3>ملزمة الرياضيات</h3>
+                            <p>ملزمة شاملة لجميع فصول الرياضيات للصف الأول الثانوي</p>
+                            <a href="supplements/math_supplement.pdf" class="download-btn" download="ملزمة_الرياضيات.pdf">
+                                <i class="fas fa-download"></i> تحميل الملزمة
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Supplement 2 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/supplement2.jpg" alt="ملزمة الفيزياء">
+                        </div>
+                        <div class="book-info">
+                            <h3>ملزمة الفيزياء</h3>
+                            <p>ملخص شامل لمادة الفيزياء مع أمثلة وتمارين محلولة</p>
+                            <a href="supplements/physics_supplement.pdf" class="download-btn" download="ملزمة_الفيزياء.pdf">
+                                <i class="fas fa-download"></i> تحميل الملزمة
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Supplement 3 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/supplement3.jpg" alt="ملزمة الكيمياء">
+                        </div>
+                        <div class="book-info">
+                            <h3>ملزمة الكيمياء</h3>
+                            <p>أهم المفاهيم والتجارب في مادة الكيمياء</p>
+                            <a href="supplements/chemistry_supplement.pdf" class="download-btn" download="ملزمة_الكيمياء.pdf">
+                                <i class="fas fa-download"></i> تحميل الملزمة
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Supplement 4 -->
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <img src="images/supplement4.jpg" alt="ملزمة الأحياء">
+                        </div>
+                        <div class="book-info">
+                            <h3>ملزمة الأحياء</h3>
+                            <p>شرح مبسط مع رسومات توضيحية لمادة الأحياء</p>
+                            <a href="supplements/biology_supplement.pdf" class="download-btn" download="ملزمة_الأحياء.pdf">
+                                <i class="fas fa-download"></i> تحميل الملزمة
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>تواصل معنا</h2>
+            </div>
+            
+            <div class="contact-form">
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="name">اسمك</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="message">ملاحظاتك أو طلباتك</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn submit-btn">
+                        <i class="fas fa-paper-plane"></i> إرسال الرسالة
+                    </button>
+                </form>
+            </div>
+            
+            <div class="bot-info">
+                <h3>للتواصل عبر البوت</h3>
+                <p>يمكنك إرسال رسالتك مباشرة إلى بوت الدعم الفني على التليجرام:</p>
+                <div class="bot-id">@YourSupportBot</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>عن المكتبة</h3>
+                    <p>مكتبة إلكترونية تهدف إلى توفير الكتب والملازم الدراسية لجميع الطلاب والمهتمين بالمعرفة.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#library">المكتبة</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>معلومات الاتصال</h3>
+                    <p><i class="fas fa-envelope"></i> info@example.com</p>
+                    <p><i class="fas fa-phone"></i> +123456789</p>
+                    <p><i class="fas fa-map-marker-alt"></i> المدينة، الدولة</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 مكتبة العلم. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        
+        menuToggle.addEventListener('click', function() {
+            mainNav.classList.toggle('active');
+            this.innerHTML = mainNav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('#mainNav a').forEach(link => {
+            link.addEventListener('click', function() {
+                mainNav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Tab Switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+            
+            // Touch support for tabs
+            btn.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                this.classList.add('active-touch');
+            });
+            
+            btn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                this.classList.remove('active-touch');
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Form Submission
+        const feedbackForm = document.getElementById('feedbackForm');
+        
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send the data to your server
+            // For demonstration, we'll just show an alert
+            alert(`شكراً ${name} على ملاحظاتك! سنقوم بالرد عليك قريباً.`);
+            
+            // Reset the form
+            feedbackForm.reset();
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Prevent zooming on double-tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Touch feedback for buttons
+        document.querySelectorAll('.btn, .book-card, .download-btn').forEach(btn => {
+            btn.addEventListener('touchstart', function() {
+                this.classList.add('active-touch');
+            });
+            
+            btn.addEventListener('touchend', function() {
+                this.classList.remove('active-touch');
+            });
+        });
+    </script>
+</body>
+</html>
